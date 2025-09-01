@@ -109,8 +109,10 @@ void loop() {
     char c = Serial.read();
     if (c == 's' || c == 'S') {
       IPAddress bcast = broadcastAddress(WiFi.localIP(), WiFi.subnetMask());
-      sendWOL(TARGET_MAC, bcast, WOL_PORT1);
-      sendWOL(TARGET_MAC, bcast, WOL_PORT2);
+	  for (int i = 0; i < RETRIES; ++i) {
+	    sendWOL(TARGET_MAC, bcast, WOL_PORT1);
+	    sendWOL(TARGET_MAC, bcast, WOL_PORT2);
+	  }
       Serial.println("WOL packets sent.");
     }
   }
